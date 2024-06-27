@@ -68,7 +68,7 @@ namespace firstORM.Migrations
                     b.Property<decimal>("PrecoUnitario")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("QuantidadeVendida")
+                    b.Property<int>("QuantidadeHoras")
                         .HasColumnType("int");
 
                     b.Property<int>("ServicoId")

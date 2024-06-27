@@ -15,7 +15,7 @@ namespace firstORM.models
         public ClienteModel Cliente { get; set; }
         public int ServicoId { get; set; }
         public ServicoModel Servico { get; set; }
-        public int QuantidadeVendida { get; set; }
+        public int QuantidadeHoras { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal PrecoUnitario { get; set; }

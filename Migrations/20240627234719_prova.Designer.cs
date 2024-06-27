@@ -12,7 +12,7 @@ using firstORM.data;
 namespace firstORM.Migrations
 {
     [DbContext(typeof(LevoratechDbContext))]
-    [Migration("20240627233640_prova")]
+    [Migration("20240627234719_prova")]
     partial class prova
     {
         /// <inheritdoc />
@@ -71,7 +71,7 @@ namespace firstORM.Migrations
                     b.Property<decimal>("PrecoUnitario")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("QuantidadeVendida")
+                    b.Property<int>("QuantidadeHoras")
                         .HasColumnType("int");
 
                     b.Property<int>("ServicoId")

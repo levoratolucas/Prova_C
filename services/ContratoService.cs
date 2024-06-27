@@ -57,7 +57,7 @@ namespace firstORM.services
                     c.DataVenda,
                     ServicoNome = c.Servico.nome,
                     ClienteNome = c.Cliente.nome,
-                    c.QuantidadeVendida,
+                    c.QuantidadeHoras,
                     c.PrecoUnitario
                 })
                 .ToListAsync();
@@ -72,8 +72,8 @@ namespace firstORM.services
                 .Select(g => new 
                 {
                     ServicoNome = g.Key.nome,
-                    QuantidadeTotalVendida = g.Sum(c => c.QuantidadeVendida),
-                    PrecoTotal = g.Sum(c => c.PrecoUnitario * c.QuantidadeVendida)
+                    QuantidadeTotalVendida = g.Sum(c => c.QuantidadeHoras),
+                    PrecoTotal = g.Sum(c => c.PrecoUnitario * c.QuantidadeHoras)
                 })
                 .ToListAsync();
         }
@@ -89,7 +89,7 @@ namespace firstORM.services
                     c.Id,
                     c.DataVenda,
                     ServicoNome = c.Servico.nome,
-                    c.QuantidadeVendida,
+                    c.QuantidadeHoras,
                     c.PrecoUnitario
                 })
                 .ToListAsync();
@@ -104,8 +104,8 @@ namespace firstORM.services
                 .Select(g => new 
                 {
                     ClienteNome = g.FirstOrDefault().Cliente.nome,
-                    QuantidadeTotalVendida = g.Sum(c => c.QuantidadeVendida),
-                    PrecoTotal = g.Sum(c => c.PrecoUnitario * c.QuantidadeVendida)
+                    QuantidadeTotalVendida = g.Sum(c => c.QuantidadeHoras),
+                    PrecoTotal = g.Sum(c => c.PrecoUnitario * c.QuantidadeHoras)
                 })
                 .ToListAsync();
         }
@@ -125,7 +125,7 @@ namespace firstORM.services
                 NumeroNotaFiscal = Guid.NewGuid().ToString(),
                 ClienteId = clienteId,
                 ServicoId = servicoId,
-                QuantidadeVendida = quantidade,
+                QuantidadeHoras = quantidade,
                 PrecoUnitario = servico.preco
             };
 

@@ -81,7 +81,7 @@ namespace firstORM.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ClienteId = table.Column<int>(type: "int", nullable: false),
                     ServicoId = table.Column<int>(type: "int", nullable: false),
-                    QuantidadeVendida = table.Column<int>(type: "int", nullable: false),
+                    QuantidadeHoras = table.Column<int>(type: "int", nullable: false),
                     PrecoUnitario = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
