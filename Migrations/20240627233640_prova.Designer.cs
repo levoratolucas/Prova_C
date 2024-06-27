@@ -12,8 +12,8 @@ using firstORM.data;
 namespace firstORM.Migrations
 {
     [DbContext(typeof(LevoratechDbContext))]
-    [Migration("20240626234703_vendas")]
-    partial class vendas
+    [Migration("20240627233640_prova")]
+    partial class prova
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,36 +50,43 @@ namespace firstORM.Migrations
                     b.ToTable("Cliente");
                 });
 
-            modelBuilder.Entity("firstORM.models.FornecedorModel", b =>
+            modelBuilder.Entity("firstORM.models.ContratoModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("cnpj")
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataVenda")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("NumeroNotaFiscal")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<decimal>("PrecoUnitario")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("nome")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("QuantidadeVendida")
+                        .HasColumnType("int");
 
-                    b.Property<string>("telefone")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("ServicoId")
+                        .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.ToTable("Fornecedor");
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("ServicoId");
+
+                    b.ToTable("Contrato");
                 });
 
-            modelBuilder.Entity("firstORM.models.ProdutoModel", b =>
+            modelBuilder.Entity("firstORM.models.ServicoModel", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -87,20 +94,19 @@ namespace firstORM.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("fornecedor")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("nome")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<decimal>("valor")
+                    b.Property<decimal>("preco")
                         .HasColumnType("decimal(65,30)");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("id");
 
-                    b.ToTable("Produto");
+                    b.ToTable("Servico");
                 });
 
             modelBuilder.Entity("firstORM.models.UserModel", b =>
@@ -128,43 +134,7 @@ namespace firstORM.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("firstORM.models.VendaModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DataVenda")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("NumeroNotaFiscal")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<decimal>("PrecoUnitario")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuantidadeVendida")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("Venda");
-                });
-
-            modelBuilder.Entity("firstORM.models.VendaModel", b =>
+            modelBuilder.Entity("firstORM.models.ContratoModel", b =>
                 {
                     b.HasOne("firstORM.models.ClienteModel", "Cliente")
                         .WithMany()
@@ -172,15 +142,15 @@ namespace firstORM.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("firstORM.models.ProdutoModel", "Produto")
+                    b.HasOne("firstORM.models.ServicoModel", "Servico")
                         .WithMany()
-                        .HasForeignKey("ProdutoId")
+                        .HasForeignKey("ServicoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cliente");
 
-                    b.Navigation("Produto");
+                    b.Navigation("Servico");
                 });
 #pragma warning restore 612, 618
         }

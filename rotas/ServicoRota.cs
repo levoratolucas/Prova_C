@@ -9,22 +9,22 @@ namespace firstORM.rota
     using firstORM.models;
     using System.Text.Json;
 
-    public class ProdutoRota
+    public class ServicoRota
     {
 
 
 
-        private ProdutoService produtoService;
-        public ProdutoRota(LevoratechDbContext db)
+        private ServicoService ServicoService;
+        public ServicoRota(LevoratechDbContext db)
         {
-            produtoService = new ProdutoService(db);
+            ServicoService = new ServicoService(db);
         }
 
         public void Rotas(WebApplication? app)
         {
             ArgumentNullException.ThrowIfNull(app);
 
-            app.MapPost("/produto/adicionar", async (HttpContext context) =>
+            app.MapPost("/servico/adicionar", async (HttpContext context) =>
                 {
                     if (!ValToken.ValidateToken(context, out _)) return;
 
@@ -32,17 +32,17 @@ namespace firstORM.rota
                     var body = await reader.ReadToEndAsync();
                     var json = JsonDocument.Parse(body);
                     var nome = json.RootElement.GetProperty("nome").GetString();
-                    var valor = json.RootElement.GetProperty("valor").GetDecimal();
-                    var fornecedor = json.RootElement.GetProperty("fornecedor").GetString();
+                    var preco = json.RootElement.GetProperty("preco").GetDecimal();
+                    var status = json.RootElement.GetProperty("status").GetBoolean();
 
-                    if (!string.IsNullOrEmpty(nome) && valor > 0 && !string.IsNullOrEmpty(fornecedor))
+                    if (!string.IsNullOrEmpty(nome) && preco > 0)
                     {
-                        var produto = new ProdutoModel { nome = nome, valor = valor, fornecedor = fornecedor };
-                        await produtoService.AddProdutoAsync(produto);
+                        var Servico = new ServicoModel { nome = nome, preco = preco, status = status };
+                        await ServicoService.AddServicoAsync(Servico);
 
-                        var produtoJson = JsonSerializer.Serialize(produto);
+                        var ServicoJson = JsonSerializer.Serialize(Servico);
                         context.Response.ContentType = "application/json";
-                        await context.Response.WriteAsync(produtoJson);
+                        await context.Response.WriteAsync(ServicoJson);
                     }
                     else
                     {
@@ -53,19 +53,19 @@ namespace firstORM.rota
                 });
 
 
-            app.MapGet("/produto/listar", async (HttpContext context) =>
+            app.MapGet("/servico/listar", async (HttpContext context) =>
             {
                 if (!ValToken.ValidateToken(context, out _)) return;
 
 
-                var produtos = await produtoService.GetAllProdutosAsync();
-                await context.Response.WriteAsJsonAsync(produtos);
+                var Servicos = await ServicoService.GetAllServicosAsync();
+                await context.Response.WriteAsJsonAsync(Servicos);
 
 
             });
 
 
-            app.MapPost("/produto/procurar", async (HttpContext context) =>
+            app.MapPost("/servico/procurar", async (HttpContext context) =>
             {
                 if (!ValToken.ValidateToken(context, out _)) return;
 
@@ -75,13 +75,13 @@ namespace firstORM.rota
                 var id = json.RootElement.GetProperty("id").GetInt16();
 
 
-                var produtos = await produtoService.GetProdutoByIdAsync(id);
-                await context.Response.WriteAsJsonAsync(produtos);
+                var Servicos = await ServicoService.GetServicoByIdAsync(id);
+                await context.Response.WriteAsJsonAsync(Servicos);
 
             });
 
 
-           app.MapPost("/produto/atualizar", async (HttpContext context) =>
+           app.MapPost("/servico/atualizar", async (HttpContext context) =>
             {
                 if (!ValToken.ValidateToken(context, out _)) return;
 
@@ -91,14 +91,14 @@ namespace firstORM.rota
                 var id = json.RootElement.GetProperty("id").GetInt32();
 
                 var nome = json.RootElement.TryGetProperty("nome", out var nomeProperty) ? nomeProperty.GetString() : string.Empty;
-                var valor = json.RootElement.TryGetProperty("valor", out var valorProperty) ? valorProperty.GetDecimal() : default;
-                var fornecedor = json.RootElement.TryGetProperty("fornecedor", out var fornecedorProperty) ? fornecedorProperty.GetString() : string.Empty;
+                var preco = json.RootElement.TryGetProperty("preco", out var precoProperty) ? precoProperty.GetDecimal() : default;
+                var status = json.RootElement.TryGetProperty("status", out var statusProperty) ? statusProperty.GetBoolean() : false;
 
-                await produtoService.update(context, app, nome, valor, fornecedor, id);
+                await ServicoService.update(context, app, nome, preco, status, id);
             });
 
 
-            app.MapPost("/produto/deletar", async (HttpContext context) =>
+            app.MapPost("/servico/deletar", async (HttpContext context) =>
             {
                 if (!ValToken.ValidateToken(context, out _)) return;
                 using var reader = new System.IO.StreamReader(context.Request.Body);
@@ -107,8 +107,8 @@ namespace firstORM.rota
                 var id = json.RootElement.GetProperty("id").GetInt32();
 
 
-                var produtos = await produtoService.GetProdutoByIdAsync(id);
-                await produtoService.DeleteProdutoAsync(id);
+                var Servicos = await ServicoService.GetServicoByIdAsync(id);
+                await ServicoService.DeleteServicoAsync(id);
 
                 await context.Response.WriteAsync("executado");
 

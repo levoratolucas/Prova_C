@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using firstORM.models;
+using Microsoft.EntityFrameworkCore;
 
 namespace firstORM.data
 {
@@ -7,12 +7,12 @@ namespace firstORM.data
     {
         public LevoratechDbContext(DbContextOptions<LevoratechDbContext> options) : base(options) { }
 
-        public DbSet<ProdutoModel> Produto { get; set; }
-        public DbSet<FornecedorModel> Fornecedor { get; set; }
+        public DbSet<ServicoModel> Servico { get; set; }
         public DbSet<ClienteModel> Cliente { get; set; }
         public DbSet<UserModel> Users { get; set; }
-        public DbSet<VendaModel> Venda { get; set; }
-        public void AddUserModel(String nome, String email, String senha)
+        public DbSet<ContratoModel> Contrato { get; set; }
+
+        public void AddUserModel(string nome, string email, string senha)
         {
             var newUser = new UserModel
             {
@@ -23,6 +23,5 @@ namespace firstORM.data
             Users.Add(newUser);
             SaveChanges();
         }
-
     }
 }

@@ -4190,11 +4190,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\aula quinta\\second\\FirstAPI_C-\\Proca_C\\Prova_C\\firstORM.csproj",
+      "projectUniqueName": "d:\\aula quinta\\second\\FirstAPI_C-\\Proca_C\\Prova_C\\firstORM.csproj",
       "projectName": "firstORM",
-      "projectPath": "D:\\aula quinta\\second\\FirstAPI_C-\\Proca_C\\Prova_C\\firstORM.csproj",
+      "projectPath": "d:\\aula quinta\\second\\FirstAPI_C-\\Proca_C\\Prova_C\\firstORM.csproj",
       "packagesPath": "C:\\Users\\levor\\.nuget\\packages\\",
-      "outputPath": "D:\\aula quinta\\second\\FirstAPI_C-\\Proca_C\\Prova_C\\obj\\",
+      "outputPath": "d:\\aula quinta\\second\\FirstAPI_C-\\Proca_C\\Prova_C\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\levor\\AppData\\Roaming\\NuGet\\NuGet.Config"
